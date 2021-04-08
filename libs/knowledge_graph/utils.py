@@ -43,7 +43,6 @@ def load_edges(kg_edges_path: str):
 
     """
     df = pd.read_csv(kg_edges_path, delimiter="\t", index_col=0)
-
     edges = []
     for row_index, row in df.iterrows():
         is_not_nan = ~row.isnull()

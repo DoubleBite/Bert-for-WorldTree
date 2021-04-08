@@ -3,6 +3,7 @@ import pandas as pd
 import networkx as nx
 
 from libs.tools.preprocessing import get_keyword_tokens
+from libs.knowledge_graph.utils import load_nodes, load_edges
 
 
 class WorldTreeKnowledgeGraph(nx.Graph):
@@ -33,18 +34,30 @@ class WorldTreeKnowledgeGraph(nx.Graph):
         self.add_edges_from(another_graph.edges(data=True))
         return
 
-    def load_knowledge_graphs_from_dir(self, kg_dir, verbose=False):
-        """
-        print(loading information)
+    def load_knowledge_graphs_from_dir(self, kg_nodes_dir, kg_edges_dir, verbose=False):
         """
         # The loading flow is designed for worldtree dataset directory structure
-        all_id_to_node = {}
-        for file in os.listdir(kg_dir):
+        print(loading information)
+        """
+
+        num_kg = 0
+
+        # Load all nodes
+        for file in os.listdir(kg_nodes_dir):
             if file.endswith('.tsv'):
-                id_to_node = self.load_knowledge_graph_from_path(
-                    f"{kg_dir}/{file}")
-                all_id_to_node.update(id_to_node)
+                id_to_node = load_nodes(
+                    f"{kg_nodes_dir}/{file}")
+                self.add_nodes_from(id_to_node.items())
+                num_kg += 1
 
-        print(len(all_id_to_node))
+        # Load all edges
+        for file in os.listdir(kg_edges_dir):
+            if file.endswith('.tsv'):
+                edges = load_edges(
+                    f"{kg_edges_dir}/{file}")
+                self.add_edges_from(edges)
 
-        return all_id_to_node
+        print(f"There are {num_kg} sub-graphs in the KG.")
+        print(f"There are {len(self.nodes)} nodes in the KG.")
+        print(f"There are {len(self.edges)} edges in the KG.")
+        return
