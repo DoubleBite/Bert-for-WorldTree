@@ -22,17 +22,17 @@ The experiments are:
 4. `result_dir` is the directory to store the experimental results.
 
 
-+ Run the BERT model
+### 1. Run the BERT model
 ```
 bash run_experiment.sh result_dir bert 
 ```
 
-+ Run the RoBERTa-large model
+### 2. Run the RoBERTa-large model
 ```
 bash run_experiment.sh result_dir roberta
 ```
 
-+ Calculate the accuracy for the multiple choice questions
+### 3. Calculate the accuracy for the multiple choice questions
 
 ```
 python evaluate.py result_dir
@@ -40,7 +40,7 @@ python evaluate.py result_dir
 
 
 
-+ Example Predictions
+### 4. Example Predictions
 
 The prediction results are stored in `result_dir/predictions.jsonl`, and they look like this
 
