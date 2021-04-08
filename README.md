@@ -2,7 +2,7 @@
 
 This repository implement a BERT-based QA model for the multiple choice science questions in the [WorldTree corpus](http://cognitiveai.org/explanationbank/). 
 
-Note that the model only handles the input consisting of **question and choice pairs** right now (without considering the supporting facts retrieved from IR modules). 
+Note that the model only handles the input consisting of **question and choice pairs** right now (without considering the supporting facts retrieved by IR modules). 
 
 
 |                 | Accuracy      |
@@ -45,9 +45,9 @@ python evaluate.py result_dir
 The prediction results are stored in `result_dir/predictions.jsonl`, and they look like this
 
 ```
-
+{"id": "Mercury_SC_LBS10276", "question": "Why do we see different stars in the sky at different times of the year?", "choices": ["The stars are revolving around the Sun.", "The Moon is revolving around Earth.", "Earth is revolving around the Sun.", "The stars are revolving around Earth."], "answer": 2, "logits": [-2.593813180923462, -4.058340072631836, 3.476123571395874, -5.399872779846191], "prediction": 2, "loss": 0.0029809109400957823, "correct": true}
+{"id": "Mercury_SC_LBS10619", "question": "What remains in the same location in the sky of the Northern Hemisphere each night?", "choices": ["the Sun", "the Little Dipper", "the North Star", "the Moon"], "answer": 2, "logits": [6.39345121383667, 4.902435302734375, 6.1293768882751465, 0.30965086817741394], "prediction": 0, "loss": 0.954888641834259, "correct": false}
 ```
-
 
 
 ## Diagram
