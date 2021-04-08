@@ -1,6 +1,6 @@
 """
 
-
+Modified from: https://github.com/allenai/allennlp-models/blob/main/allennlp_models/mc/models/transformer_mc.py 
 """
 
 import logging
