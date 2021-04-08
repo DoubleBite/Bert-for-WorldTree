@@ -76,20 +76,21 @@ class TransformerWorldTree(Model):
         Parameters
         ----------
         qc_pairs : ``Dict[str, torch.LongTensor]``
-            From a ``ListField[TextField]``. Contains a list of alternatives to evaluate for every instance.
-        correct_alternative : ``Optional[torch.IntTensor]``
+            From a ``ListField[TextField]``. Contains a list of question-choice pairs to evaluate for every instance.
+        answer_idx : ``Optional[torch.IntTensor]``
             From an ``IndexField``. Contains the index of the correct answer for every instance.
-        qid : `Optional[List[str]]`
-            A list of question IDs for the questions being processed now.
+        metadata : `Optional[List[str]]`
+            The meta information for the questions, like question_ic, original_text, and so on.
+            
         Returns
         -------
         An output dictionary consisting of:
         loss : ``torch.FloatTensor``, optional
-            A scalar loss to be optimised. This is only returned when `correct_alternative` is not `None`.
+            A scalar loss to be optimised. This is only returned when `answer_idx` is not `None`.
         logits : ``torch.FloatTensor``
-            The logits for every possible answer choice
-        best_alternative : ``List[int]``
-            The index of the highest scoring alternative for every instance in the batch
+            The logits for every possible answer choice.
+        prediction : ``List[int]``
+            The index of the highest scoring choice for every instance in the batch.
         """
 
         # Bert embedding
