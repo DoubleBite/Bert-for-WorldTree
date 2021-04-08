@@ -79,8 +79,8 @@ class TransformerWorldTree(Model):
             From a ``ListField[TextField]``. Contains a list of question-choice pairs to evaluate for every instance.
         answer_idx : ``Optional[torch.IntTensor]``
             From an ``IndexField``. Contains the index of the correct answer for every instance.
-        metadata : `Optional[List[str]]`
-            The meta information for the questions, like question_ic, original_text, and so on.
+        metadata : `Optional[Dict[str, Any]]`
+            The meta information for the questions, like question_id, original_text, and so on.
             
         Returns
         -------
