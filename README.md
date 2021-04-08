@@ -2,7 +2,7 @@
 
 This repository implement a BERT-based QA model for the multiple choice science questions in the [WorldTree corpus](http://cognitiveai.org/explanationbank/). 
 
-Note that the model only handles the input consisting of **question and choice pairs** right now (without considering the supporting facts retrieved by IR modules). 
+Note that the model only handles the input consisting of **question-choice pairs** right now (without considering the supporting facts retrieved by IR modules). 
 
 
 |                 | Accuracy      |
