@@ -4,6 +4,8 @@ This repository implement a BERT-based QA model for the multiple choice science 
 
 Note that the model only handles the input consisting of **question-choice pairs** right now (without considering the supporting facts retrieved by IR modules). 
 
+(Take reference from the latest model for [HotPotQA](https://hotpotqa.github.io/)??)
+
 
 |                 | Accuracy      |
 | -------------   |:-------------:|
