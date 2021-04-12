@@ -1,6 +1,5 @@
 import logging
 from typing import List, Optional, Iterable
-
 import re
 import pandas as pd
 
@@ -10,6 +9,8 @@ from allennlp.data.tokenizers import PretrainedTransformerTokenizer
 from allennlp.data.token_indexers import PretrainedTransformerIndexer
 from allennlp.data.fields import TextField, ListField, IndexField, MetadataField
 from allennlp.common.file_utils import cached_path
+
+from libs.dataset_reader.utils import parse_raw_question, answser_to_index
 
 logger = logging.getLogger(__name__)
 
@@ -50,7 +51,7 @@ class WorldTreeReader(DatasetReader):
             for _, row in df.iterrows():
                 qid = row["QuestionID"]
                 raw_question = row["question"]
-                question, choices = _parse_question_and_choices(
+                question, choices = parse_raw_question(
                     raw_question)
                 answer = row["AnswerKey"]
                 answer_idx = answser_to_index(answer)
@@ -113,38 +114,3 @@ class WorldTreeReader(DatasetReader):
             "answer_idx": answer_idx,
             "metadata": metadata,
         })
-
-
-def _parse_question_and_choices(raw_question: str):
-    """
-
-        Example Usage
-        ---------------------
-
-
-    """
-    trunks = re.split(r"\([ABCDE12345]\)", raw_question)
-    trunks = [x.strip() for x in trunks]
-    question, *choices = trunks
-
-    return question, choices
-
-
-def answser_to_index(answer: str):
-    """
-    The answer is the nth choices
-    """
-    mapping = {
-        "A": 0,
-        "B": 1,
-        "C": 2,
-        "D": 3,
-        "E": 4,
-        "1": 0,
-        "2": 1,
-        "3": 2,
-        "4": 3,
-        "5": 4,
-    }
-
-    return mapping[answer]

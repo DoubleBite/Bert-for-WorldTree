@@ -1,3 +1,3 @@
-from libs.dataset_reader.worldtree_reader import WorldTreeReader
+from libs.dataset_reader.worldtree import WorldTreeReader
 from libs.models.worldtree import TransformerWorldTree
 from libs.predictors.worldtree_predictor import WorldTreePredictor
