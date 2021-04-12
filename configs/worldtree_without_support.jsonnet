@@ -1,5 +1,3 @@
-local transformer_model = 'roberta-large';
-
 local epochs = 20;
 local batch_size = 64;
 
@@ -9,14 +7,14 @@ local gradient_accumulation_steps = batch_size / gpu_batch_size;
 {
     "dataset_reader": {
         "type": "worldtree",
-        "transformer_model_name": transformer_model,
+        "transformer_model_name": "roberta-large",
       //"max_instances": 200  // debug setting
     },
     "train_data_path": "data/questions/questions.train.tsv",
     "validation_data_path": "data/questions/questions.dev.tsv",
     "model": {
         "type": "worldtree",
-        "transformer_model": transformer_model,
+        "transformer_model": "roberta-large",
     },
     "data_loader": {
         "shuffle": true,
