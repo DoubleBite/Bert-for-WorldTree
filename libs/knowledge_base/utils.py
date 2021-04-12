@@ -1,38 +1,58 @@
-import pandas as pd
+"""
+
+Reference: 
+"""
+
+import re
+import nltk
+from nltk.corpus import stopwords
 
 
-def load_knowledge_table(table_path):
+def remove_punctuations(sentence: str):
+    """
+    Remove the puctuations
+    """
 
-    df = pd.read_csv(table_path, delimiter="\t")
-    table_name = table_path.split("/")[-1].rstrip(".tsv")
+    sentence = re.sub(r"[?.,;-]", " ", sentence)  # Sub with 1 space
+    sentence = re.sub(r"['`]", "", sentence)  # Sub with 0 space
 
-    id_to_knowledge = {}
-    for _, row in df.iterrows():
-        field_values = [str(x) for x in row.values[:-4] if not pd.isna(x)]
-        knowledge_id = row["[SKIP] UID"]
-        id_to_knowledge[knowledge_id] = {
-            "table": table_name,
-            "fact": " ".join(field_values)
-        }
-    return id_to_knowledge
+    return sentence
 
 
-def load_knowledge_base(kb_path):
+def preprocess(sentence: str, lemmatizer=None):
 
-    # Load table names
-    table_names = []
-    with open(f"{kb_path}/tableindex.txt", 'r') as f:
-        for line in f.readlines():
-            table_name = line.strip("\n")
-            table_names.append(table_name)
-    print(f"There are {len(table_names)} tables in total.")
+    # Remove punctuations
+    sentence = remove_punctuations(sentence)
 
-    # Load the knowledge
-    id_to_knowledge = {}
-    for tb_name in table_names:
-        table = load_knowledge_table(f"{kb_path}/tables/{tb_name}")
-        id_to_knowledge.update(table)
-    print(
-        f"There are {len(id_to_knowledge)} pieces of facts in the knowledge base.")
+    # Remove stop words
+    tmp_words = []
+    for word in nltk.word_tokenize(sentence):
+        if not word.lower() in stopwords.words("english"):
+            tmp_words.append(word)
 
-    return id_to_knowledge
+    # Lemmatize
+    if lemmatizer is not None:
+        tmp_words = [lemmatizer.lemmatize(word) for word in tmp_words]
+
+    return " ".join(tmp_words)
+
+
+class WorldTreeLemmatizer:
+
+    def __init__(self, vocab_path="lemmatization-en.txt"):
+
+        self.lemmas = {}
+
+        # Load vocab.
+        with open(vocab_path, 'r') as f:
+            for line in f:
+                line = line.rstrip().lower()
+                lemma, word = line.split("\t", maxsplit=1)
+                self.lemmas[word] = lemma
+
+    def lemmatize(self, word: str):
+        if word.lower() in self.lemmas:
+            lemma = self.lemmas[word.lower()]
+            return lemma
+        else:
+            return word.lower()
